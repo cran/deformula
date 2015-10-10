@@ -1,0 +1,12 @@
+0ec6545838e6bbaf836daaffd1bcea78 *DESCRIPTION
+1ad92d2a1f3ce759e56fcd11816d0ac3 *NAMESPACE
+7893268c4e6ebc280d0c2b4901241687 *R/deformula.R
+0617474ae89fbd4d89a4a79a867a4b85 *man/deformula-package.Rd
+018c7ddb0489b92ace60da446f03cde8 *man/deformula.moneone.Rd
+5845776ade11bee5b89afe5712220024 *man/deformula.zeroinf.Rd
+3e381709f13f1b2eac195415e4f76f1a *src/Makevars
+1225390a5289144061fcf88b9a554f68 *src/R_deformula.cpp
+3faf2cdffbbd727de9f27cc48f3d2b68 *src/allheader.h
+4e6637f4ea87b472b4cee12576078241 *src/deformula.cpp
+e5478577c14189a97eb073e66f75ca38 *src/include/deformula.hpp
+fbfd48e0355c75112f7913eac04236a5 *src/init.c

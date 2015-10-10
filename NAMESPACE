@@ -1,0 +1,7 @@
+useDynLib(deformula, .registration=TRUE)
+
+export(
+	deformula.zeroinf,
+	deformula.moneone
+)
+

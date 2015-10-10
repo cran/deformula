@@ -1,0 +1,5 @@
+PKG_CXXFLAGS = -I include
+OBJECTS = \
+	init.o \
+	deformula.o \
+	R_deformula.o
