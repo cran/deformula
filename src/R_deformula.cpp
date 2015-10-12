@@ -1,7 +1,7 @@
-#include "deformula.hpp"
-
 #include <R.h>
 #include <Rinternals.h>
+
+#include "deformula.hpp"
 
 SEXP mkans(double x) {
 	SEXP ans;

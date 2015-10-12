@@ -1,6 +1,7 @@
 
 #include "deformula.hpp"
 
+using namespace std;
 using namespace deformula;
 
 const static double pi = 4.0 * atan(1.0);
@@ -46,7 +47,7 @@ DeformulaZeroToInf::DeformulaZeroToInf()
 : Deformula(-6.8, 6.8) {};
 
 double DeformulaZeroToInf::phi(double t) const {
-	return exp(M_PI * sinh(t) / 2.0);			
+	return exp(pi * sinh(t) / 2.0);
 }
 
 double DeformulaZeroToInf::phidash(double t) const {

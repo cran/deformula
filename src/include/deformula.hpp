@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <R.h>
+#include <Rinternals.h>
+
 #include <vector>
 #include <cfloat>
 #include <cmath>
@@ -127,8 +130,8 @@ namespace deformula {
 	void Deformula::calcWeight(double t, FUNCTION& func) {
 		double xtmp = phi(t);
 		double wtmp = phidash(t) * func(xtmp);
-		if (!std::isnan(wtmp) && wtmp > m_zero) {
-			if (std::isinf(wtmp)) {
+		if (!ISNAN(wtmp) && wtmp > m_zero) {
+			if (!R_FINITE(wtmp)) {
 				m_info = 2;
 				return;
 			}
