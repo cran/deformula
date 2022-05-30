@@ -1,69 +1,57 @@
+#include "deformula.h"
 
-#include "deformula.hpp"
+using namespace Rcpp;
 
-using namespace std;
-using namespace deformula;
+// [[Rcpp::export]]
+List integrate_zero_to_inf(Function f, double zero, double reltol,
+                           int startd, int maxiter) {
+  deformula::DeformulaZeroToInf de;
+  de.getWeight(f, zero, reltol, startd, maxiter);
 
-const static double pi = 4.0 * atan(1.0);
+  int n = de.getSize();
+  NumericVector t(n);
+  NumericVector x(n);
+  NumericVector w(n);
+  de.getTValue(t.begin(), t.end());
+  de.getXValue(x.begin(), x.end());
+  de.getWValue(w.begin(), w.end());
+  double s = de.getSum();
+  double h = de.getH();
+  int info = de.getInfo();
 
-// deformula
-
-Deformula::Deformula(double lower, double upper)
-: m_lower(lower), m_upper(upper) {}
-
-double Deformula::sumw() const {
-	double sum = 0.0;
-	for (std::vector<DeformulaElement>::const_iterator it = m_data.begin(); it != m_data.end(); it++) {
-		sum += (*it).w;
-	}
-	return sum;
+  return List::create(
+    Named("value") = s,
+    Named("x") = x,
+    Named("w") = w,
+    Named("t") = t,
+    Named("h") = h,
+    Named("message") = info
+  );
 }
 
-int Deformula::getSize() const {
-	return m_data.size();
+// [[Rcpp::export]]
+List integrate_mone_to_one(Function f, double zero, double reltol,
+                           int startd, int maxiter) {
+  deformula::DeformulaMinusOneToOne de;
+  de.getWeight(f, zero, reltol, startd, maxiter);
+
+  int n = de.getSize();
+  NumericVector t(n);
+  NumericVector x(n);
+  NumericVector w(n);
+  de.getTValue(t.begin(), t.end());
+  de.getXValue(x.begin(), x.end());
+  de.getWValue(w.begin(), w.end());
+  double s = de.getSum();
+  double h = de.getH();
+  int info = de.getInfo();
+
+  return List::create(
+    Named("value") = s,
+    Named("x") = x,
+    Named("w") = w,
+    Named("t") = t,
+    Named("h") = h,
+    Named("message") = info
+  );
 }
-
-std::vector<double> Deformula::getTValue() const {
-	std::vector<double> res(getSize());
-	getTValue(res.begin(), res.end());
-	return res;
-}
-
-std::vector<double> Deformula::getXValue() const {
-	std::vector<double> res(getSize());
-	getXValue(res.begin(), res.end());
-	return res;
-}
-
-std::vector<double> Deformula::getWValue() const {
-	std::vector<double> res(getSize());
-	getWValue(res.begin(), res.end());
-	return res;
-}
-
-// Integral over (0, infinity)
-
-DeformulaZeroToInf::DeformulaZeroToInf()
-: Deformula(-6.8, 6.8) {};
-
-double DeformulaZeroToInf::phi(double t) const {
-	return exp(pi * sinh(t) / 2.0);
-}
-
-double DeformulaZeroToInf::phidash(double t) const {
-	return pi * cosh(t) * exp(pi * sinh(t) / 2.0) / 2.0;
-}
-
-// Integral over (-1, 1)
-
-DeformulaMinusOneToOne::DeformulaMinusOneToOne()
-: Deformula(-3.0, 3.0) {};
-
-double DeformulaMinusOneToOne::phi(double t) const {
-	return tanh(pi * sinh(t) / 2.0);
-}
-
-double DeformulaMinusOneToOne::phidash(double t) const {
-	return pi * cosh(t) * (1.0 / cosh(pi * sinh(t) / 2.0)) * (1.0 / cosh(pi * sinh(t) / 2.0)) / 2.0;
-}
-
